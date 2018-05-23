@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Button = props => {
-
+const Button = ({ onClick, children }) => {
   return (
-    <button>{props.children}</button>
+    <button onClick={onClick}>{children}</button>
   )
 }
 
