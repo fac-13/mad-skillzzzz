@@ -1,7 +1,7 @@
 {
   "name": "mad-skillzzzz",
   "version": "1.0.0",
-  "description": "this is mad skillzz - Haydn n' Tammy",
+  "description": "a timed quiz app - Haydn n' Tammy",
   "main": "index.js",
   "scripts": {
     "test": "jest",
