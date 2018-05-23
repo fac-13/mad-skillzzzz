@@ -7,3 +7,22 @@
 * Set a timer and answer questions
 * Choose from a predefined list of categories
 * Set the difficulty level
+
+### Categories:
+
+* Science and Nature
+* Celebrities
+* General Knowlege
+* Sports
+* Animals
+* Mythology
+
+### User Journey
+
+* land on page
+* select a category
+* start quiz:
+  * 10 questions appear in sequence
+  * answer each question in turn before timeout
+  * difficulty level increases as decrease of time per question?
+  * see your score on ddisplay/dashboard
