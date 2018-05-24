@@ -14,7 +14,7 @@ export default class Card extends React.Component {
       correctAnswer,
       checkAnswerFn
     } = this.props;
-    const answers = correctAnswer.split().concat(wrongAnswers);
+    const answers = [correctAnswer].concat(wrongAnswers).sort();
     return (
       <article>
         <header>
