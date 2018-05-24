@@ -59,6 +59,7 @@ export default class App extends React.Component {
 
   render() {
     const { categories } = this.props;
+    const { quizData, currentQuestion } = this.state;
     return (
       <div>
         {categories.map((item, i) => {
@@ -73,11 +74,8 @@ export default class App extends React.Component {
             </Button>
           );
         })}
-        {this.state.quizData
-          ? this.populateQuizCard(
-              this.state.quizData[this.state.currentQuestion],
-              this.state.currentQuestion
-            )
+        {this.state.quizData && currentQuestion < 10
+          ? this.populateQuizCard(quizData[currentQuestion], currentQuestion)
           : ''}
       </div>
     );
