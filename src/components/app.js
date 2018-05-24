@@ -12,9 +12,24 @@ export default class App extends React.Component {
   }
 
   populateQuizCard = (record, index) => {
-    const { category, correct_answer, incorrect_answers, difficulty, question, type } = record;
-    return <Card key={index} question={question} difficulty={difficulty} correctAnswer={correct_answer} wrongAnswers={incorrect_answers} />;
-  }
+    const {
+      category,
+      correct_answer,
+      incorrect_answers,
+      difficulty,
+      question,
+      type
+    } = record;
+    return (
+      <Card
+        key={index}
+        question={question}
+        difficulty={difficulty}
+        correctAnswer={correct_answer}
+        wrongAnswers={incorrect_answers}
+      />
+    );
+  };
 
   fetchCategory(categoryId) {
     return () => {
@@ -40,7 +55,9 @@ export default class App extends React.Component {
             </Button>
           );
         })}
-        {this.state.quizData ? this.state.quizData.map((item, i) => this.populateQuizCard(item, i)) : ""}
+        {this.state.quizData
+          ? this.state.quizData.map((item, i) => this.populateQuizCard(item, i))
+          : ''}
       </div>
     );
   }
