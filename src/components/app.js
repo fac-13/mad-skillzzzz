@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './button';
+import Card from './card';
 import { getQuiz } from '../utils/getQuiz';
 
 export default class App extends React.Component {
@@ -8,6 +9,11 @@ export default class App extends React.Component {
     this.state = {
       quizData: null
     };
+  }
+
+  populateQuizCard = (record, index) => {
+    const { category, correct_answer, incorrect_answers, difficulty, question, type } = record;
+    return <Card key={index} question={question} difficulty={difficulty} correctAnswer={correct_answer} wrongAnswers={incorrect_answers} />;
   }
 
   fetchCategory(categoryId) {
@@ -34,6 +40,7 @@ export default class App extends React.Component {
             </Button>
           );
         })}
+        {this.state.quizData ? this.state.quizData.map((item, i) => this.populateQuizCard(item, i)) : ""}
       </div>
     );
   }
