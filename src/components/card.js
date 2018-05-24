@@ -6,7 +6,13 @@ export default class Card extends React.Component {
   }
 
   render() {
-    return <h1>Hello world</h1>
+    const { difficulty, question } = this.props;
+    return (
+      <article>
+        <header><p>{difficulty}</p></header>
+        <div><p>{question}</p></div>
+      </article>
+    )
   }
 }
 
