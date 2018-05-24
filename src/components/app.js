@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './button';
+import Card from './card';
 import { getQuiz } from '../utils/getQuiz';
 
 export default class App extends React.Component {
@@ -34,6 +35,7 @@ export default class App extends React.Component {
             </Button>
           );
         })}
+        {this.state.quizData && <Card />}
       </div>
     );
   }
