@@ -8,18 +8,23 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       quizData: null,
-      rightAnswers: 0
+      rightAnswers: 0,
+      currentQuestion: 0
     };
     this.checkAnswer = this.checkAnswer.bind(this);
   }
 
   checkAnswer(answer, correctAnswer) {
     return () => {
+      console.log(answer === correctAnswer);
       if (answer === correctAnswer) {
         this.setState(({ rightAnswers: previousCount }) => ({
           rightAnswers: previousCount + 1
         }));
       }
+      this.setState(({ currentQuestion: previousQuestion }) => ({
+        currentQuestion: previousQuestion + 1
+      }));
     };
   }
 
@@ -69,7 +74,10 @@ export default class App extends React.Component {
           );
         })}
         {this.state.quizData
-          ? this.state.quizData.map((item, i) => this.populateQuizCard(item, i))
+          ? this.populateQuizCard(
+              this.state.quizData[this.state.currentQuestion],
+              this.state.currentQuestion
+            )
           : ''}
       </div>
     );
