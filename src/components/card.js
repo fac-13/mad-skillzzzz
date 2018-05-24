@@ -6,12 +6,14 @@ export default class Card extends React.Component {
     super(props);
   }
 
-  checkAnswer(answer) {
-    return () => console.log(answer === this.props.correctAnswer);
-  }
-
   render() {
-    const { difficulty, question, wrongAnswers, correctAnswer } = this.props;
+    const {
+      difficulty,
+      question,
+      wrongAnswers,
+      correctAnswer,
+      checkAnswerFn
+    } = this.props;
     const answers = correctAnswer.split().concat(wrongAnswers);
     return (
       <article>
@@ -24,7 +26,7 @@ export default class Card extends React.Component {
         <footer>
           {answers.map((answer, i) => {
             return (
-              <Button key={i} onClick={this.checkAnswer(answer)}>
+              <Button key={i} onClick={checkAnswerFn(answer, correctAnswer)}>
                 {answer}
               </Button>
             );

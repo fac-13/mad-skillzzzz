@@ -7,7 +7,19 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizData: null
+      quizData: null,
+      rightAnswers: 0
+    };
+    this.checkAnswer = this.checkAnswer.bind(this);
+  }
+
+  checkAnswer(answer, correctAnswer) {
+    return () => {
+      if (answer === correctAnswer) {
+        this.setState(({ rightAnswers: previousCount }) => ({
+          rightAnswers: previousCount + 1
+        }));
+      }
     };
   }
 
@@ -23,6 +35,7 @@ export default class App extends React.Component {
     return (
       <Card
         key={index}
+        checkAnswerFn={this.checkAnswer}
         question={question}
         difficulty={difficulty}
         correctAnswer={correct_answer}
