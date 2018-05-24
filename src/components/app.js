@@ -11,6 +11,11 @@ export default class App extends React.Component {
     };
   }
 
+  populateQuizCard = (record) => {
+    const { category } = record;
+    console.log(category);
+  }
+
   fetchCategory(categoryId) {
     return () => {
       getQuiz(categoryId)
@@ -35,7 +40,7 @@ export default class App extends React.Component {
             </Button>
           );
         })}
-        {this.state.quizData && <Card />}
+        {this.state.quizData ? this.state.quizData.map((item, i) => this.populateQuizCard(item)) : ""}
       </div>
     );
   }
