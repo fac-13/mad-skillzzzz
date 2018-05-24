@@ -9,11 +9,20 @@ export default class App extends React.Component {
     }
   }
 
+
   sayHi = () => {
-    console.log(this.props.quizCategories);
+    console.log('hi!');
   }
 
   render() {
-    return <Button onClick={this.sayHi}>True</Button>;
+    const { categories } = this.props;
+    return (
+      <div>
+        {categories.map((item, i) => {
+          const values = item.split('/');
+          return <Button key={i} onClick={this.sayHi} id={values[0]}>{values[1]}</Button>;
+        })}
+      </div>
+    )
   }
 }
