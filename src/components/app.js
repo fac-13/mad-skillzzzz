@@ -1,17 +1,21 @@
 import React from 'react';
-import Button from "./button";
+import Button from './button';
+import { getQuiz } from '../utils/getQuiz';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizData: null,
-    }
+      quizData: null
+    };
   }
 
-
-  sayHi = () => {
-    console.log('hi!');
+  fetchCategory(categoryId) {
+    return () => {
+      getQuiz(categoryId)
+        .then((quiz) => this.setState({ quizData: quiz.results }))
+        .then(() => console.log(this.state.quizData));
+    };
   }
 
   render() {
@@ -20,9 +24,17 @@ export default class App extends React.Component {
       <div>
         {categories.map((item, i) => {
           const values = item.split('/');
-          return <Button key={i} onClick={this.sayHi} id={values[0]}>{values[1]}</Button>;
+          return (
+            <Button
+              key={i}
+              onClick={this.fetchCategory(values[0])}
+              id={values[0]}
+            >
+              {values[1]}
+            </Button>
+          );
         })}
       </div>
-    )
+    );
   }
 }
