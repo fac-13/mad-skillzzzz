@@ -2,6 +2,7 @@ import React from 'react';
 import Button from './button';
 import Card from './card';
 import { getQuiz } from '../utils/getQuiz';
+import Score from './score';
 
 
 export default class App extends React.Component {
@@ -10,7 +11,7 @@ export default class App extends React.Component {
     this.state = {
       quizData: null,
       rightAnswers: 0,
-      currentQuestion: 0
+      currentQuestion: 0,
     };
     this.checkAnswer = this.checkAnswer.bind(this);
   }
@@ -79,6 +80,7 @@ export default class App extends React.Component {
         {this.state.quizData && currentQuestion < 10
           ? this.populateQuizCard(quizData[currentQuestion], currentQuestion)
           : ''}
+        {this.state.quizData && currentQuestion === 10 ? <Score score={this.state.rightAnswers} /> : ""}
       </div>
     );
   }
