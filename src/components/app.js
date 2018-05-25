@@ -40,7 +40,7 @@ export default class App extends React.Component {
   }
 
   populateQuizCard = (record, index) => {
-    const categorySelected = this.state.categorySelected;
+    const { categorySelected } = this.state;
     const {
       category,
       correct_answer,
@@ -73,13 +73,17 @@ export default class App extends React.Component {
 
   render() {
     const { categories } = this.props;
-    const { quizData, currentQuestion } = this.state;
+    const {
+      quizData,
+      rightAnswers,
+      currentQuestion,
+      categorySelected
+    } = this.state;
     return (
       <div className="app">
-        {!this.state.categorySelected && <h1>Pick a Category</h1>}
-        {!this.state.categorySelected &&
+        {!categorySelected && <h1>Pick a Category</h1>}
+        {!categorySelected &&
           categories.map((item, i) => {
-            // const values = item.split('/');
             return (
               <Button
                 key={i}
@@ -90,11 +94,11 @@ export default class App extends React.Component {
               </Button>
             );
           })}
-        {this.state.quizData && currentQuestion < 10
+        {quizData && currentQuestion < 10
           ? this.populateQuizCard(quizData[currentQuestion], currentQuestion)
           : ''}
-        {this.state.quizData && currentQuestion === 10 ? (
-          <Score score={this.state.rightAnswers} refresh={this.restartGame} />
+        {quizData && currentQuestion === 10 ? (
+          <Score score={rightAnswers} refresh={this.restartGame} />
         ) : (
           ''
         )}
