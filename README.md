@@ -1,5 +1,7 @@
 # mad-skillzzzz
 
+### Play the Quiz at: http://taha-quiz.netlify.com/
+
 ### A timed quiz app built by Haydn n' Tammy
 
 * Built with React.js
