@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './button';
+import Timer from './timer';
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class Card extends React.Component {
     const {
       difficulty,
       question,
+      duration,
       wrongAnswers,
       correctAnswer,
       checkAnswerFn
@@ -18,7 +20,8 @@ export default class Card extends React.Component {
     return (
       <article className="card">
         <header>
-          <p>{difficulty}</p>
+          <span>{difficulty} | </span>
+          <Timer duration={duration} timeoutFn={checkAnswerFn(true, false)} />
         </header>
         <div>
           <p>{question}</p>

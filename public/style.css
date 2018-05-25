@@ -57,21 +57,20 @@ h1 {
   display: block;
   width: 15rem;
   padding: 3px;
-  background-color: rgb(223, 223, 223);  
-  margin: .75rem;
-  padding: .7rem;
+  background-color: rgb(223, 223, 223);
+  margin: 0.75rem;
+  padding: 0.7rem;
   border-radius: 5px;
   color: black;
   font-size: 1.3rem;
   border: none;
-  transition: padding .3s;
+  transition: padding 0.3s;
   font-family: 'Mako', sans-serif;
 }
 
-button:focus, button:hover {
+button:focus,
+button:hover {
   background-color: rgb(38, 100, 32);
   color: white;
   outline: none;
-  padding: .75rem;
-  font-size: 1.2rem;
 }

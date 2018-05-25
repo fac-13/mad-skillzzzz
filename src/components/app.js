@@ -4,7 +4,6 @@ import Card from './card';
 import { getQuiz } from '../utils/getQuiz';
 import Score from './score';
 
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +11,7 @@ export default class App extends React.Component {
       quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
-      categorySelected: false,
+      categorySelected: false
     };
     this.checkAnswer = this.checkAnswer.bind(this);
   }
@@ -39,13 +38,14 @@ export default class App extends React.Component {
       incorrect_answers,
       difficulty,
       question,
-      type,
+      type
     } = record;
     return (
       <Card
         key={index}
         checkAnswerFn={this.checkAnswer}
         question={question}
+        duration={10}
         difficulty={difficulty}
         correctAnswer={correct_answer}
         wrongAnswers={incorrect_answers}
@@ -56,8 +56,9 @@ export default class App extends React.Component {
   fetchCategory(categoryId) {
     return () => {
       this.setState({ categorySelected: true });
-      getQuiz(categoryId)
-        .then((quiz) => this.setState({ quizData: quiz.results }))
+      getQuiz(categoryId).then((quiz) =>
+        this.setState({ quizData: quiz.results })
+      );
     };
   }
 
@@ -67,22 +68,27 @@ export default class App extends React.Component {
     return (
       <div className="app">
         {!this.state.categorySelected && <h1>Pick a Category</h1>}
-        {!this.state.categorySelected && categories.map((item, i) => {
-          const values = item.split('/');
-          return (
-            <Button
-              key={i}
-              onClick={this.fetchCategory(values[0])}
-              id={values[0]}
-            >
-              {values[1]}
-            </Button>
-          );
-        })}
+        {!this.state.categorySelected &&
+          categories.map((item, i) => {
+            const values = item.split('/');
+            return (
+              <Button
+                key={i}
+                onClick={this.fetchCategory(values[0])}
+                id={values[0]}
+              >
+                {values[1]}
+              </Button>
+            );
+          })}
         {this.state.quizData && currentQuestion < 10
           ? this.populateQuizCard(quizData[currentQuestion], currentQuestion)
           : ''}
-        {this.state.quizData && currentQuestion === 10 ? <Score score={this.state.rightAnswers} /> : ""}
+        {this.state.quizData && currentQuestion === 10 ? (
+          <Score score={this.state.rightAnswers} />
+        ) : (
+          ''
+        )}
       </div>
     );
   }
