@@ -12,6 +12,7 @@ export default class App extends React.Component {
       quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
+      categorySelected: false,
     };
     this.checkAnswer = this.checkAnswer.bind(this);
   }
@@ -31,13 +32,14 @@ export default class App extends React.Component {
   }
 
   populateQuizCard = (record, index) => {
+    const categorySelected = this.state.categorySelected;
     const {
       category,
       correct_answer,
       incorrect_answers,
       difficulty,
       question,
-      type
+      type,
     } = record;
     return (
       <Card
@@ -53,9 +55,9 @@ export default class App extends React.Component {
 
   fetchCategory(categoryId) {
     return () => {
+      this.setState({ categorySelected: true });
       getQuiz(categoryId)
         .then((quiz) => this.setState({ quizData: quiz.results }))
-        .then(() => console.log(this.state.quizData));
     };
   }
 
@@ -64,8 +66,8 @@ export default class App extends React.Component {
     const { quizData, currentQuestion } = this.state;
     return (
       <div className="app">
-        <h1>Pick a Category</h1>
-        {categories.map((item, i) => {
+        {!this.state.categorySelected && <h1>Pick a Category</h1>}
+        {!this.state.categorySelected && categories.map((item, i) => {
           const values = item.split('/');
           return (
             <Button

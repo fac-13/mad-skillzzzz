@@ -7,6 +7,7 @@ body {
   background-color: rgb(33, 62, 105);
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .app {
@@ -31,9 +32,8 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 27rem;
   color: #fff;
-  
+  max-width: 80%;
 }
 
 .card header {
@@ -44,18 +44,25 @@ h1 {
 .card p {
   font-weight: bolder;
   font-size: 1.5rem;
+  word-wrap: none;
+}
+
+.scoreCard {
+  color: white;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .button {
   display: block;
-  width: 20rem;
+  width: 15rem;
   padding: 3px;
   background-color: rgb(223, 223, 223);  
-  margin: .3rem;
-  padding: .5rem;
-  border-radius: 15px;
+  margin: .75rem;
+  padding: .7rem;
+  border-radius: 5px;
   color: black;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   border: none;
   transition: padding .3s;
   font-family: 'Mako', sans-serif;
