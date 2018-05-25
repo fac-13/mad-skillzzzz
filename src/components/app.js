@@ -10,9 +10,10 @@ export default class App extends React.Component {
     this.state = {
       quizData: null,
       rightAnswers: 0,
-      currentQuestion: 0,
+      currentQuestion: 0
     };
     this.checkAnswer = this.checkAnswer.bind(this);
+    // this.timeout = this.timeout.bind(this);
   }
 
   checkAnswer(answer, correctAnswer) {
@@ -43,6 +44,7 @@ export default class App extends React.Component {
         key={index}
         checkAnswerFn={this.checkAnswer}
         question={question}
+        duration={3}
         difficulty={difficulty}
         correctAnswer={correct_answer}
         wrongAnswers={incorrect_answers}
@@ -78,7 +80,11 @@ export default class App extends React.Component {
         {this.state.quizData && currentQuestion < 10
           ? this.populateQuizCard(quizData[currentQuestion], currentQuestion)
           : ''}
-        {this.state.quizData && currentQuestion === 10 ? <Score score={this.state.rightAnswers} /> : ""}
+        {this.state.quizData && currentQuestion === 10 ? (
+          <Score score={this.state.rightAnswers} />
+        ) : (
+          ''
+        )}
       </div>
     );
   }
