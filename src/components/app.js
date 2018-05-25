@@ -18,7 +18,12 @@ export default class App extends React.Component {
   }
 
   restartGame() {
-    return this.setState({ quizData: null, rightAnswers: 0, currentQuestion: 0, categorySelected: false });
+    return this.setState({
+      quizData: null,
+      rightAnswers: 0,
+      currentQuestion: 0,
+      categorySelected: false
+    });
   }
 
   checkAnswer(answer, correctAnswer) {
@@ -74,14 +79,14 @@ export default class App extends React.Component {
         {!this.state.categorySelected && <h1>Pick a Category</h1>}
         {!this.state.categorySelected &&
           categories.map((item, i) => {
-            const values = item.split('/');
+            // const values = item.split('/');
             return (
               <Button
                 key={i}
-                onClick={this.fetchCategory(values[0])}
-                id={values[0]}
+                onClick={this.fetchCategory(item.id)}
+                id={item.id}
               >
-                {values[1]}
+                {item.title}
               </Button>
             );
           })}
@@ -91,8 +96,8 @@ export default class App extends React.Component {
         {this.state.quizData && currentQuestion === 10 ? (
           <Score score={this.state.rightAnswers} refresh={this.restartGame} />
         ) : (
-            ''
-          )}
+          ''
+        )}
       </div>
     );
   }
