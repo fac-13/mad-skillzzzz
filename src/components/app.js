@@ -14,7 +14,6 @@ export default class App extends React.Component {
       categorySelected: false
     };
     this.checkAnswer = this.checkAnswer.bind(this);
-    // this.timeout = this.timeout.bind(this);
   }
 
   checkAnswer(answer, correctAnswer) {
