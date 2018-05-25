@@ -14,11 +14,15 @@ export default class App extends React.Component {
       categorySelected: false
     };
     this.checkAnswer = this.checkAnswer.bind(this);
+    this.restartGame = this.restartGame.bind(this);
+  }
+
+  restartGame() {
+    return this.setState({ quizData: null, rightAnswers: 0, currentQuestion: 0, categorySelected: false });
   }
 
   checkAnswer(answer, correctAnswer) {
     return () => {
-      console.log(answer === correctAnswer);
       if (answer === correctAnswer) {
         this.setState(({ rightAnswers: previousCount }) => ({
           rightAnswers: previousCount + 1
@@ -85,10 +89,10 @@ export default class App extends React.Component {
           ? this.populateQuizCard(quizData[currentQuestion], currentQuestion)
           : ''}
         {this.state.quizData && currentQuestion === 10 ? (
-          <Score score={this.state.rightAnswers} />
+          <Score score={this.state.rightAnswers} refresh={this.restartGame} />
         ) : (
-          ''
-        )}
+            ''
+          )}
       </div>
     );
   }
