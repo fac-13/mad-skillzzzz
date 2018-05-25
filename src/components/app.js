@@ -2,6 +2,7 @@ import React from 'react';
 import Button from './button';
 import Card from './card';
 import { getQuiz } from '../utils/getQuiz';
+import "../../public/style.css";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -61,7 +62,8 @@ export default class App extends React.Component {
     const { categories } = this.props;
     const { quizData, currentQuestion } = this.state;
     return (
-      <div>
+      <div className="app">
+        <h1>Pick a Category</h1>
         {categories.map((item, i) => {
           const values = item.split('/');
           return (

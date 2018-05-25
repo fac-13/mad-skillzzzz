@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './button';
+import "../../public/style.css";
 
 export default class Card extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class Card extends React.Component {
     } = this.props;
     const answers = correctAnswer.split().concat(wrongAnswers);
     return (
-      <article>
+      <article className="card">
         <header>
           <p>{difficulty}</p>
         </header>
