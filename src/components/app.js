@@ -46,7 +46,7 @@ export default class App extends React.Component {
         key={index}
         checkAnswerFn={this.checkAnswer}
         question={question}
-        duration={3}
+        duration={10}
         difficulty={difficulty}
         correctAnswer={correct_answer}
         wrongAnswers={incorrect_answers}
