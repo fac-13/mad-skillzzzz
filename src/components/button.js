@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import "../../public/style.css";
 
 const Button = ({ onClick, children, id }) => {
   return (

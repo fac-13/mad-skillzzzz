@@ -2,7 +2,7 @@ import React from 'react';
 import Button from './button';
 import Card from './card';
 import { getQuiz } from '../utils/getQuiz';
-import "../../public/style.css";
+
 
 export default class App extends React.Component {
   constructor(props) {
