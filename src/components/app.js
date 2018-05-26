@@ -18,7 +18,12 @@ export default class App extends React.Component {
   }
 
   restartGame() {
-    return this.setState({ quizData: null, rightAnswers: 0, currentQuestion: 0, categorySelected: false });
+    return this.setState({
+      quizData: null,
+      rightAnswers: 0,
+      currentQuestion: 0,
+      categorySelected: false
+    });
   }
 
   checkAnswer(answer, correctAnswer) {
@@ -35,7 +40,7 @@ export default class App extends React.Component {
   }
 
   populateQuizCard = (record, index) => {
-    const categorySelected = this.state.categorySelected;
+    const { categorySelected } = this.state;
     const {
       category,
       correct_answer,
@@ -68,31 +73,35 @@ export default class App extends React.Component {
 
   render() {
     const { categories } = this.props;
-    const { quizData, currentQuestion } = this.state;
+    const {
+      quizData,
+      rightAnswers,
+      currentQuestion,
+      categorySelected
+    } = this.state;
     return (
       <div className="app">
-        {!this.state.categorySelected && <h1>Pick a Category</h1>}
-        {!this.state.categorySelected &&
+        {!categorySelected && <h1>Pick a Category</h1>}
+        {!categorySelected &&
           categories.map((item, i) => {
-            const values = item.split('/');
             return (
               <Button
                 key={i}
-                onClick={this.fetchCategory(values[0])}
-                id={values[0]}
+                onClick={this.fetchCategory(item.id)}
+                id={item.id}
               >
-                {values[1]}
+                {item.title}
               </Button>
             );
           })}
-        {this.state.quizData && currentQuestion < 10
+        {quizData && currentQuestion < 10
           ? this.populateQuizCard(quizData[currentQuestion], currentQuestion)
           : ''}
-        {this.state.quizData && currentQuestion === 10 ? (
-          <Score score={this.state.rightAnswers} refresh={this.restartGame} />
+        {quizData && currentQuestion === 10 ? (
+          <Score score={rightAnswers} refresh={this.restartGame} />
         ) : (
-            ''
-          )}
+          ''
+        )}
       </div>
     );
   }
