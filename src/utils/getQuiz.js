@@ -6,7 +6,9 @@ const checkResponse = (response) => {
 };
 
 export const getQuiz = (categoryId) => {
-  return fetch(`https://opentdb.com/api.php?amount=10&category=${categoryId}`)
+  return fetch(
+    `https://opentdb.com/api.php?amount=10&category=${categoryId}&encode=base64`
+  )
     .then(checkResponse)
     .catch((err) => {
       throw new Error(`fetching the quiz FAILED ${err}`);
