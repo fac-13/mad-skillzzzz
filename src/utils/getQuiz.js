@@ -15,7 +15,7 @@ export const getSession = () => {
 
 export const getQuiz = (categoryId, sessionToken) => {
   return fetch(
-    `https://opentdb.com/api.php?amount=10&category=${categoryId}&token=${sessionToken}`
+    `https://opentdb.com/api.php?amount=10&category=${categoryId}&encode=base64&token=${sessionToken}`
   )
     .then(checkResponse)
     .catch((err) => {

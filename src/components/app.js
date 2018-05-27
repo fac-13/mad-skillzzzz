@@ -18,26 +18,28 @@ export default class App extends React.Component {
     this.restartGame = this.restartGame.bind(this);
   }
 
+  componentDidMount() {
+    getSession().then((session) =>
+      this.setState({ sessionToken: session.token })
+    );
+  }
+
+  fetchCategory(categoryId, sessionToken) {
+    return () => {
+      this.setState({ categorySelected: true });
+      getQuiz(categoryId, sessionToken).then((quiz) =>
+        this.setState({ quizData: quiz.results })
+      );
+    };
+  }
+
   restartGame() {
     return this.setState({
-      sessionToken: null,
       quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
       categorySelected: false
     });
-  }
-
-  fetchCategory(categoryId, sessionToken) {
-    return () => {
-      if (!sessionToken) {
-        getSession().then((token) => this.setState({ sessionToken: token }));
-      }
-      getQuiz(categoryId, sessionToken).then((quiz) =>
-        this.setState({ quizData: quiz.results })
-      );
-      this.setState({ categorySelected: true });
-    };
   }
 
   checkAnswer(answer, correctAnswer) {
@@ -67,11 +69,11 @@ export default class App extends React.Component {
       <Card
         key={index}
         checkAnswerFn={this.checkAnswer}
-        question={question}
+        question={atob(question)}
         duration={10}
-        difficulty={difficulty}
-        correctAnswer={correct_answer}
-        wrongAnswers={incorrect_answers}
+        difficulty={atob(difficulty)}
+        correctAnswer={atob(correct_answer)}
+        wrongAnswers={incorrect_answers.map((x) => atob(x))}
       />
     );
   };
