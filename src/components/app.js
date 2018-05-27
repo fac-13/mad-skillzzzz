@@ -53,11 +53,11 @@ export default class App extends React.Component {
       <Card
         key={index}
         checkAnswerFn={this.checkAnswer}
-        question={question}
+        question={atob(question)}
         duration={10}
-        difficulty={difficulty}
-        correctAnswer={correct_answer}
-        wrongAnswers={incorrect_answers}
+        difficulty={atob(difficulty)}
+        correctAnswer={atob(correct_answer)}
+        wrongAnswers={incorrect_answers.map((x) => atob(x))}
       />
     );
   };
