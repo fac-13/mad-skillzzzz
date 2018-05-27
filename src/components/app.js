@@ -1,13 +1,14 @@
 import React from 'react';
 import Button from './button';
 import Card from './card';
-import { getQuiz } from '../utils/getQuiz';
+import { getQuiz, getSession } from '../utils/getQuiz';
 import Score from './score';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      sessionToken: null,
       quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
@@ -19,11 +20,24 @@ export default class App extends React.Component {
 
   restartGame() {
     return this.setState({
+      sessionToken: null,
       quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
       categorySelected: false
     });
+  }
+
+  fetchCategory(categoryId, sessionToken) {
+    return () => {
+      if (!sessionToken) {
+        getSession().then((token) => this.setState({ sessionToken: token }));
+      }
+      getQuiz(categoryId, sessionToken).then((quiz) =>
+        this.setState({ quizData: quiz.results })
+      );
+      this.setState({ categorySelected: true });
+    };
   }
 
   checkAnswer(answer, correctAnswer) {
@@ -62,18 +76,10 @@ export default class App extends React.Component {
     );
   };
 
-  fetchCategory(categoryId) {
-    return () => {
-      this.setState({ categorySelected: true });
-      getQuiz(categoryId).then((quiz) =>
-        this.setState({ quizData: quiz.results })
-      );
-    };
-  }
-
   render() {
     const { categories } = this.props;
     const {
+      sessionToken,
       quizData,
       rightAnswers,
       currentQuestion,
@@ -87,7 +93,7 @@ export default class App extends React.Component {
             return (
               <Button
                 key={i}
-                onClick={this.fetchCategory(item.id)}
+                onClick={this.fetchCategory(item.id, sessionToken)}
                 id={item.id}
               >
                 {item.title}
