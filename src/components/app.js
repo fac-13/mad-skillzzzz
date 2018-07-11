@@ -1,13 +1,14 @@
 import React from 'react';
 import Button from './button';
 import Card from './card';
-import { getQuiz } from '../utils/getQuiz';
+import { getQuiz, getSession } from '../utils/getQuiz';
 import Score from './score';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      sessionToken: null,
       quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
@@ -15,6 +16,21 @@ export default class App extends React.Component {
     };
     this.checkAnswer = this.checkAnswer.bind(this);
     this.restartGame = this.restartGame.bind(this);
+  }
+
+  componentDidMount() {
+    getSession().then((session) =>
+      this.setState({ sessionToken: session.token })
+    );
+  }
+
+  fetchCategory(categoryId, sessionToken) {
+    return () => {
+      this.setState({ categorySelected: true });
+      getQuiz(categoryId, sessionToken).then((quiz) =>
+        this.setState({ quizData: quiz.results })
+      );
+    };
   }
 
   restartGame() {
@@ -53,27 +69,19 @@ export default class App extends React.Component {
       <Card
         key={index}
         checkAnswerFn={this.checkAnswer}
-        question={question}
+        question={atob(question)}
         duration={10}
-        difficulty={difficulty}
-        correctAnswer={correct_answer}
-        wrongAnswers={incorrect_answers}
+        difficulty={atob(difficulty)}
+        correctAnswer={atob(correct_answer)}
+        wrongAnswers={incorrect_answers.map((x) => atob(x))}
       />
     );
   };
 
-  fetchCategory(categoryId) {
-    return () => {
-      this.setState({ categorySelected: true });
-      getQuiz(categoryId).then((quiz) =>
-        this.setState({ quizData: quiz.results })
-      );
-    };
-  }
-
   render() {
     const { categories } = this.props;
     const {
+      sessionToken,
       quizData,
       rightAnswers,
       currentQuestion,
@@ -87,7 +95,7 @@ export default class App extends React.Component {
             return (
               <Button
                 key={i}
-                onClick={this.fetchCategory(item.id)}
+                onClick={this.fetchCategory(item.id, sessionToken)}
                 id={item.id}
               >
                 {item.title}
