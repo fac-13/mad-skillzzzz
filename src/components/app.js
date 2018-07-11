@@ -9,7 +9,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       sessionToken: null,
-      quizData: null,
+      // quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
       categorySelected: false
@@ -19,16 +19,17 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    getSession().then((session) =>
+    getSession().then(session =>
       this.setState({ sessionToken: session.token })
     );
   }
 
   fetchCategory(categoryId, sessionToken) {
     return () => {
+      const { onCategorySelect } = this.props;
       this.setState({ categorySelected: true });
-      getQuiz(categoryId, sessionToken).then((quiz) =>
-        this.setState({ quizData: quiz.results })
+      getQuiz(categoryId, sessionToken).then(quizData =>
+        onCategorySelect(quizData.results)
       );
     };
   }
@@ -58,7 +59,6 @@ export default class App extends React.Component {
   populateQuizCard = (record, index) => {
     const { categorySelected } = this.state;
     const {
-      category,
       correct_answer,
       incorrect_answers,
       difficulty,
@@ -73,16 +73,15 @@ export default class App extends React.Component {
         duration={10}
         difficulty={atob(difficulty)}
         correctAnswer={atob(correct_answer)}
-        wrongAnswers={incorrect_answers.map((x) => atob(x))}
+        wrongAnswers={incorrect_answers.map(x => atob(x))}
       />
     );
   };
 
   render() {
-    const { categories } = this.props;
+    const { categories, quizData } = this.props;
     const {
       sessionToken,
-      quizData,
       rightAnswers,
       currentQuestion,
       categorySelected

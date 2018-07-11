@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../public/style.css';
 
-import App from './components/app';
+import { store } from './store/index.js';
+import AppContainer from './containers/appContainer';
 
 let quizzes = [
   { id: 17, title: 'Science and Nature' },
@@ -13,4 +14,7 @@ let quizzes = [
   { id: 9, title: 'General Knowledge' }
 ];
 
-ReactDOM.render(<App categories={quizzes} />, document.getElementById('root'));
+ReactDOM.render(
+  <AppContainer store={store} categories={quizzes} />,
+  document.getElementById('root')
+);
