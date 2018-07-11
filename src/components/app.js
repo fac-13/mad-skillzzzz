@@ -19,21 +19,23 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    getSession().then((session) =>
+    getSession().then(session =>
       this.setState({ sessionToken: session.token })
     );
   }
 
   fetchCategory(categoryId, sessionToken) {
     return () => {
+      const { setQuizData } = this.props;
       this.setState({ categorySelected: true });
-      getQuiz(categoryId, sessionToken).then((quiz) =>
-        this.setState({ quizData: quiz.results })
+      getQuiz(categoryId, sessionToken).then(quizData =>
+        setQuizData(quizData.results)
       );
     };
   }
 
   restartGame() {
+    this.props.setQuizData(null);
     return this.setState({
       quizData: null,
       rightAnswers: 0,
@@ -58,7 +60,6 @@ export default class App extends React.Component {
   populateQuizCard = (record, index) => {
     const { categorySelected } = this.state;
     const {
-      category,
       correct_answer,
       incorrect_answers,
       difficulty,
@@ -73,16 +74,15 @@ export default class App extends React.Component {
         duration={10}
         difficulty={atob(difficulty)}
         correctAnswer={atob(correct_answer)}
-        wrongAnswers={incorrect_answers.map((x) => atob(x))}
+        wrongAnswers={incorrect_answers.map(x => atob(x))}
       />
     );
   };
 
   render() {
-    const { categories } = this.props;
+    const { categories, quizData } = this.props;
     const {
       sessionToken,
-      quizData,
       rightAnswers,
       currentQuestion,
       categorySelected
