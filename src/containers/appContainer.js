@@ -11,7 +11,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCategorySelect: quizData => dispatch(setQuizQuestions(quizData))
+    setQuizData: quizData => dispatch(setQuizQuestions(quizData))
   };
 };
 

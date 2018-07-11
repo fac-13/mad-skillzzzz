@@ -9,7 +9,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       sessionToken: null,
-      // quizData: null,
+      quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
       categorySelected: false
@@ -26,15 +26,16 @@ export default class App extends React.Component {
 
   fetchCategory(categoryId, sessionToken) {
     return () => {
-      const { onCategorySelect } = this.props;
+      const { setQuizData } = this.props;
       this.setState({ categorySelected: true });
       getQuiz(categoryId, sessionToken).then(quizData =>
-        onCategorySelect(quizData.results)
+        setQuizData(quizData.results)
       );
     };
   }
 
   restartGame() {
+    this.props.setQuizData(null);
     return this.setState({
       quizData: null,
       rightAnswers: 0,
