@@ -16,10 +16,6 @@ const quizzes = [
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      rightAnswers: 0,
-      currentQuestion: 0
-    };
     this.checkAnswer = this.checkAnswer.bind(this);
     this.restartGame = this.restartGame.bind(this);
     this.sessionToken = null;
@@ -43,22 +39,19 @@ export default class App extends React.Component {
   restartGame() {
     const { resetGame } = this.props;
     resetGame();
-    return this.setState({
-      rightAnswers: 0,
-      currentQuestion: 0
-    });
   }
 
   checkAnswer(answer, correctAnswer) {
+    const {
+      incrementRightAnswers,
+      updateCurrentQuestion,
+      currentQuestion
+    } = this.props;
     return () => {
       if (answer === correctAnswer) {
-        this.setState(({ rightAnswers: previousCount }) => ({
-          rightAnswers: previousCount + 1
-        }));
+        incrementRightAnswers();
       }
-      this.setState(({ currentQuestion: previousQuestion }) => ({
-        currentQuestion: previousQuestion + 1
-      }));
+      updateCurrentQuestion(currentQuestion);
     };
   }
 
@@ -78,8 +71,12 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { quizData, categorySelected } = this.props;
-    const { rightAnswers, currentQuestion } = this.state;
+    const {
+      quizData,
+      categorySelected,
+      rightAnswers,
+      currentQuestion
+    } = this.props;
     return (
       <div className="app">
         {!categorySelected && <h1>Pick a Category</h1>}
