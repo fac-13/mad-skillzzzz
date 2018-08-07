@@ -19,8 +19,7 @@ export default class App extends React.Component {
     this.state = {
       sessionToken: null,
       rightAnswers: 0,
-      currentQuestion: 0,
-      categorySelected: false
+      currentQuestion: 0
     };
     this.checkAnswer = this.checkAnswer.bind(this);
     this.restartGame = this.restartGame.bind(this);
@@ -42,8 +41,8 @@ export default class App extends React.Component {
   }
 
   restartGame() {
-    const { setQuizData } = this.props;
-    setQuizData(null);
+    const { resetGame } = this.props;
+    resetGame();
     return this.setState({
       rightAnswers: 0,
       currentQuestion: 0
@@ -64,13 +63,7 @@ export default class App extends React.Component {
   }
 
   populateQuizCard = (record, index) => {
-    const {
-      correct_answer,
-      incorrect_answers,
-      difficulty,
-      question,
-      type
-    } = record;
+    const { correct_answer, incorrect_answers, difficulty, question } = record;
     return (
       <Card
         key={index}
