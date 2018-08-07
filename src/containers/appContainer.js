@@ -1,7 +1,11 @@
 import React from 'react';
 import App from '../components/app';
 import { connect } from 'react-redux';
-import { setQuizQuestions, markCategorySelected } from '../actions/actions';
+import {
+  setQuizQuestions,
+  markCategorySelected,
+  resetGame
+} from '../actions/actions';
 
 const mapStateToProps = state => {
   return {
@@ -13,7 +17,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setQuizData: quizData => dispatch(setQuizQuestions(quizData)),
-    markCategorySelected: () => dispatch(markCategorySelected())
+    markCategorySelected: () => dispatch(markCategorySelected()),
+    resetGame: () => dispatch(resetGame())
   };
 };
 

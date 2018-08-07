@@ -5,13 +5,6 @@ export const setQuizQuestions = data => {
   };
 };
 
-export const setSessionToken = token => {
-  return {
-    type: 'SET_SESSION_TOKEN',
-    sessionToken: token
-  };
-};
-
 export const incrementRightAnswers = () => {
   return {
     type: 'INCREMENT_RIGHT_ANSWERS'

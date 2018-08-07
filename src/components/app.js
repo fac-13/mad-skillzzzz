@@ -17,33 +17,32 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sessionToken: null,
       rightAnswers: 0,
-      currentQuestion: 0,
-      categorySelected: false
+      currentQuestion: 0
     };
     this.checkAnswer = this.checkAnswer.bind(this);
     this.restartGame = this.restartGame.bind(this);
+    this.sessionToken = null;
   }
 
   componentDidMount() {
-    getSession().then(session =>
-      this.setState({ sessionToken: session.token })
-    );
+    getSession().then(session => {
+      this.sessionToken = session.token;
+    });
   }
 
-  fetchCategory(categoryId, sessionToken) {
+  fetchCategory(categoryId) {
     return () => {
       const { setQuizData, markCategorySelected } = this.props;
-      getQuiz(categoryId, sessionToken)
+      getQuiz(categoryId, this.sessionToken)
         .then(quizData => setQuizData(quizData.results))
         .then(() => markCategorySelected());
     };
   }
 
   restartGame() {
-    const { setQuizData } = this.props;
-    setQuizData(null);
+    const { resetGame } = this.props;
+    resetGame();
     return this.setState({
       rightAnswers: 0,
       currentQuestion: 0
@@ -64,13 +63,7 @@ export default class App extends React.Component {
   }
 
   populateQuizCard = (record, index) => {
-    const {
-      correct_answer,
-      incorrect_answers,
-      difficulty,
-      question,
-      type
-    } = record;
+    const { correct_answer, incorrect_answers, difficulty, question } = record;
     return (
       <Card
         key={index}
@@ -86,7 +79,7 @@ export default class App extends React.Component {
 
   render() {
     const { quizData, categorySelected } = this.props;
-    const { sessionToken, rightAnswers, currentQuestion } = this.state;
+    const { rightAnswers, currentQuestion } = this.state;
     return (
       <div className="app">
         {!categorySelected && <h1>Pick a Category</h1>}
@@ -95,7 +88,7 @@ export default class App extends React.Component {
             return (
               <Button
                 key={i}
-                onClick={this.fetchCategory(item.id, sessionToken)}
+                onClick={this.fetchCategory(item.id)}
                 id={item.id}
               >
                 {item.title}
