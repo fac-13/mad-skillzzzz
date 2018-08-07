@@ -4,6 +4,15 @@ import Card from './card';
 import { getQuiz, getSession } from '../utils/getQuiz';
 import Score from './score';
 
+const quizzes = [
+  { id: 17, title: 'Science and Nature' },
+  { id: 26, title: 'Celebrities' },
+  { id: 21, title: 'Sports' },
+  { id: 27, title: 'Animals' },
+  { id: 20, title: 'Mythology' },
+  { id: 9, title: 'General Knowledge' }
+];
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -80,7 +89,7 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { categories, quizData } = this.props;
+    const { quizData } = this.props;
     const {
       sessionToken,
       rightAnswers,
@@ -91,7 +100,7 @@ export default class App extends React.Component {
       <div className="app">
         {!categorySelected && <h1>Pick a Category</h1>}
         {!categorySelected &&
-          categories.map((item, i) => {
+          quizzes.map((item, i) => {
             return (
               <Button
                 key={i}
