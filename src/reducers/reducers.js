@@ -1,6 +1,5 @@
 import {
   setQuizQuestions,
-  setSessionToken,
   incrementRightAnswers,
   updateCurrentQuestion,
   markCategorySelected,
@@ -8,7 +7,6 @@ import {
 } from '../actions/actions';
 
 export const initialState = {
-  sessionToken: null,
   quizData: null,
   rightAnswers: 0,
   currentQuestion: 0,
@@ -20,10 +18,6 @@ export const updateState = (state = initialState, action) => {
     case 'SET_QUIZ_QUESTIONS':
       return Object.assign({}, state, {
         quizData: action.quizData
-      });
-    case 'SET_SESSION_TOKEN':
-      return Object.assign({}, state, {
-        sessionToken: action.sessionToken
       });
     case 'INCREMENT_RIGHT_ANSWERS':
       return Object.assign({}, state, {
