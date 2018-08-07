@@ -18,7 +18,6 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       sessionToken: null,
-      quizData: null,
       rightAnswers: 0,
       currentQuestion: 0,
       categorySelected: false
@@ -35,21 +34,19 @@ export default class App extends React.Component {
 
   fetchCategory(categoryId, sessionToken) {
     return () => {
-      const { setQuizData } = this.props;
-      this.setState({ categorySelected: true });
-      getQuiz(categoryId, sessionToken).then(quizData =>
-        setQuizData(quizData.results)
-      );
+      const { setQuizData, markCategorySelected } = this.props;
+      getQuiz(categoryId, sessionToken)
+        .then(quizData => setQuizData(quizData.results))
+        .then(() => markCategorySelected());
     };
   }
 
   restartGame() {
-    this.props.setQuizData(null);
+    const { setQuizData } = this.props;
+    setQuizData(null);
     return this.setState({
-      quizData: null,
       rightAnswers: 0,
-      currentQuestion: 0,
-      categorySelected: false
+      currentQuestion: 0
     });
   }
 
@@ -67,7 +64,6 @@ export default class App extends React.Component {
   }
 
   populateQuizCard = (record, index) => {
-    const { categorySelected } = this.state;
     const {
       correct_answer,
       incorrect_answers,
@@ -89,13 +85,8 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { quizData } = this.props;
-    const {
-      sessionToken,
-      rightAnswers,
-      currentQuestion,
-      categorySelected
-    } = this.state;
+    const { quizData, categorySelected } = this.props;
+    const { sessionToken, rightAnswers, currentQuestion } = this.state;
     return (
       <div className="app">
         {!categorySelected && <h1>Pick a Category</h1>}

@@ -18,7 +18,7 @@ export const incrementRightAnswers = () => {
   };
 };
 
-export const updateCurrentQuestion = () => {
+export const updateCurrentQuestion = currentQuestion => {
   return {
     type: 'UPDATE_CURRENT_QUESTION',
     currentQuestion

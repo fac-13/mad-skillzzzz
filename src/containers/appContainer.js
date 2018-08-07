@@ -1,17 +1,19 @@
 import React from 'react';
 import App from '../components/app';
 import { connect } from 'react-redux';
-import { setQuizQuestions } from '../actions/actions';
+import { setQuizQuestions, markCategorySelected } from '../actions/actions';
 
 const mapStateToProps = state => {
   return {
-    quizData: state.quizData
+    quizData: state.quizData,
+    categorySelected: state.categorySelected
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setQuizData: quizData => dispatch(setQuizQuestions(quizData))
+    setQuizData: quizData => dispatch(setQuizQuestions(quizData)),
+    markCategorySelected: () => dispatch(markCategorySelected())
   };
 };
 
