@@ -4,67 +4,59 @@ import Card from './card';
 import { getQuiz, getSession } from '../utils/getQuiz';
 import Score from './score';
 
+const quizzes = [
+  { id: 17, title: 'Science and Nature' },
+  { id: 26, title: 'Celebrities' },
+  { id: 21, title: 'Sports' },
+  { id: 27, title: 'Animals' },
+  { id: 20, title: 'Mythology' },
+  { id: 9, title: 'General Knowledge' }
+];
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      sessionToken: null,
-      quizData: null,
-      rightAnswers: 0,
-      currentQuestion: 0,
-      categorySelected: false
-    };
     this.checkAnswer = this.checkAnswer.bind(this);
     this.restartGame = this.restartGame.bind(this);
+    this.sessionToken = null;
   }
 
   componentDidMount() {
-    getSession().then((session) =>
-      this.setState({ sessionToken: session.token })
-    );
+    getSession().then(session => {
+      this.sessionToken = session.token;
+    });
   }
 
-  fetchCategory(categoryId, sessionToken) {
+  fetchCategory(categoryId) {
     return () => {
-      this.setState({ categorySelected: true });
-      getQuiz(categoryId, sessionToken).then((quiz) =>
-        this.setState({ quizData: quiz.results })
-      );
+      const { setQuizData, markCategorySelected } = this.props;
+      getQuiz(categoryId, this.sessionToken)
+        .then(quizData => setQuizData(quizData.results))
+        .then(() => markCategorySelected());
     };
   }
 
   restartGame() {
-    return this.setState({
-      quizData: null,
-      rightAnswers: 0,
-      currentQuestion: 0,
-      categorySelected: false
-    });
+    const { resetGame } = this.props;
+    resetGame();
   }
 
   checkAnswer(answer, correctAnswer) {
+    const {
+      incrementRightAnswers,
+      updateCurrentQuestion,
+      currentQuestion
+    } = this.props;
     return () => {
       if (answer === correctAnswer) {
-        this.setState(({ rightAnswers: previousCount }) => ({
-          rightAnswers: previousCount + 1
-        }));
+        incrementRightAnswers();
       }
-      this.setState(({ currentQuestion: previousQuestion }) => ({
-        currentQuestion: previousQuestion + 1
-      }));
+      updateCurrentQuestion(currentQuestion);
     };
   }
 
   populateQuizCard = (record, index) => {
-    const { categorySelected } = this.state;
-    const {
-      category,
-      correct_answer,
-      incorrect_answers,
-      difficulty,
-      question,
-      type
-    } = record;
+    const { correct_answer, incorrect_answers, difficulty, question } = record;
     return (
       <Card
         key={index}
@@ -73,29 +65,27 @@ export default class App extends React.Component {
         duration={10}
         difficulty={atob(difficulty)}
         correctAnswer={atob(correct_answer)}
-        wrongAnswers={incorrect_answers.map((x) => atob(x))}
+        wrongAnswers={incorrect_answers.map(x => atob(x))}
       />
     );
   };
 
   render() {
-    const { categories } = this.props;
     const {
-      sessionToken,
       quizData,
+      categorySelected,
       rightAnswers,
-      currentQuestion,
-      categorySelected
-    } = this.state;
+      currentQuestion
+    } = this.props;
     return (
       <div className="app">
         {!categorySelected && <h1>Pick a Category</h1>}
         {!categorySelected &&
-          categories.map((item, i) => {
+          quizzes.map((item, i) => {
             return (
               <Button
                 key={i}
-                onClick={this.fetchCategory(item.id, sessionToken)}
+                onClick={this.fetchCategory(item.id)}
                 id={item.id}
               >
                 {item.title}
