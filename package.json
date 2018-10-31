@@ -31,7 +31,7 @@
     "eslint-config-recommended": "^2.0.0",
     "eslint-plugin-react": "^7.8.2",
     "jest": "^22.4.4",
-    "parcel-bundler": "^1.8.1"
+    "parcel-bundler": "^1.10.3"
   },
   "dependencies": {
     "react": "^16.4.1",
